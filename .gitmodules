@@ -1,3 +1,6 @@
 [submodule "steamapi"]
 	path = steamapi
 	url = git@github.com:smiley/steamapi.git
+[submodule "simplecache"]
+	path = simplecache
+	url = git@github.com:cprn/simplecache.git

@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import configparser
-import os
 import steamapi.steamapi as steamapi
+from steamhtml import Scraper
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -14,12 +14,15 @@ except KeyError:
 user = steamapi.user.SteamUser(userurl="cprn")
 
 total = 0
+linux = 0
+scraper = Scraper()
 for game in user.games:
     total += game.playtime_forever
-    print(game.id, game.name, game.playtime_forever)
-    print(dir(game.from_api_response))
-    raise SystemExit
+    badge = '-----'
+    if scraper.runs_on_linux(game.id):
+        badge = 'LINUX'
+        linux += game.playtime_forever
+    print(badge, '%6s' % game.playtime_forever, game.name)
 
-print("\nTotal playtime: %s" % total)
-
-#  '_cache', '_id', '_owner', '_schema', '_userid', 'achievements', 'appid', 'from_api_response', 'id', 'name', 'owner', 'playtime_forever'
+summary = "\nTotal playtime: {}\nLinux playtime: {}\nPlaytime score: {:0%}"
+print(summary.format(total, linux, linux/total))
