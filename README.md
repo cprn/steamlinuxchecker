@@ -5,6 +5,7 @@ Ever wondered if you're a true Linux gamer?
 ```sh
 $ sudo apt-get install python3
 $ git clone --recursive https://github.com/cprn/steamlinuxchecker.git
+$ cd steamlinuxchecker
 $ cp config_example.ini config.ini
 $ vim config.ini # set api.key
 $ ./steamlinuxchecker {vanity_name|profile_id}
