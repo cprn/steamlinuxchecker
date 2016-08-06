@@ -1,7 +1,22 @@
 #!/usr/bin/python3
 import configparser
-import steamapi.steamapi as steamapi
+import sys
+from steamapi import steamapi
 from steamhtml import Scraper
+
+usage = """
+Usage:
+    {} vanity_name|steam_id
+
+    vanity_name
+        Part of the URL after `/id/`.
+
+    steam_id
+        Number in the URL after `/profiles/`.
+""".format(sys.argv[0])
+
+if len(sys.argv) == 1:
+    raise SystemExit(usage)
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -11,7 +26,12 @@ try:
 except KeyError:
     raise SystemExit('Copy config_example.ini to config.ini and set the api.key value!')
 
-user = steamapi.user.SteamUser(userurl="cprn")
+target = sys.argv[1]
+
+try:
+  user = steamapi.user.SteamUser(userid=int(target))
+except ValueError:
+  user = steamapi.user.SteamUser(userurl=target)
 
 total = 0
 linux = 0
