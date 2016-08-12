@@ -2,7 +2,7 @@
 import configparser
 import sys
 from steamapi import steamapi
-from steamhtml import Scraper
+from steamwww import Scraper
 
 usage = """
 Usage:
