@@ -3,7 +3,7 @@ Ever wondered if you're a true Linux gamer?
 
 # HowTo
 ```sh
-$ sudo apt-get install python3
+$ sudo apt-get install python3.5
 $ git clone --recursive https://github.com/cprn/steamlinuxchecker.git
 $ cd steamlinuxchecker
 $ cp config_example.ini config.ini
