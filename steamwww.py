@@ -12,8 +12,7 @@ class Scraper:
 
     def get_html(self, id):
         self.__calls += 1
-        time.sleep(1)                            # wait between calls
-        self.__calls % 20 == 0 and time.sleep(5) # sometimes even longer
+        self.__calls % 20 == 0 and time.sleep(2) # sometimes wait between calls
         r = requests.get('http://store.steampowered.com/app/%s' % id, cookies={
             'birthtime': '1000',
             'path': '/',
