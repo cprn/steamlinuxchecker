@@ -26,10 +26,12 @@ class Scraper:
     def runs_on_linux(self, id):
         try:
             linux = self.__cache.get(id)['linux']
+            print ('   ', end = '')
         except KeyError:
             linux = self.get_html(id).find("platform_img linux") > 0
             self.__cache.add(id, {"linux": linux})
             self.__cache.save()
+            print(' + ', end = '')
         return linux
 
 
