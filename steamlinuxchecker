@@ -29,9 +29,12 @@ except KeyError:
 target = sys.argv[1]
 
 try:
-  user = steamapi.user.SteamUser(userid=int(target))
-except ValueError:
-  user = steamapi.user.SteamUser(userurl=target)
+    try:
+      user = steamapi.user.SteamUser(userid=int(target))
+    except ValueError:
+      user = steamapi.user.SteamUser(userurl=target)
+except steamapi.errors.UserNotFoundError:
+    raise SystemExit('User not found.')
 
 total = 0
 linux = 0
