@@ -4,48 +4,62 @@ import sys
 from steamapi import steamapi
 from steamwww import Scraper
 
-usage = """
-Usage:
-    {} vanity_name|steam_id
 
-    vanity_name
-        Part of the URL after `/id/`.
+def connect_to_steam():
+    config = configparser.ConfigParser()
+    config.read('config.ini')
 
-    steam_id
-        Number in the URL after `/profiles/`.
-""".format(sys.argv[0])
-
-if len(sys.argv) == 1:
-    raise SystemExit(usage)
-
-config = configparser.ConfigParser()
-config.read('config.ini')
-
-try:
-    steamapi.core.APIConnection(api_key=config['api']['key'])
-except KeyError:
-    raise SystemExit('Copy config_example.ini to config.ini and set the api.key value!')
-
-target = sys.argv[1]
-
-try:
     try:
-      user = steamapi.user.SteamUser(userid=int(target))
-    except ValueError:
-      user = steamapi.user.SteamUser(userurl=target)
-except steamapi.errors.UserNotFoundError:
-    raise SystemExit('User not found.')
+        steamapi.core.APIConnection(api_key=config['api']['key'])
+    except KeyError:
+        raise SystemExit('Copy config_example.ini to config.ini and set the api.key value!')
+    return steamapi
 
-total = 0
-linux = 0
-scraper = Scraper()
-for game in user.games:
-    total += game.playtime_forever
-    badge = '-----'
-    if scraper.runs_on_linux(game.id):
-        badge = 'LINUX'
-        linux += game.playtime_forever
-    print(badge, '%6s' % game.playtime_forever, game.name)
+def get_steam_user(steamapi, id):
+    try:
+        try:
+          user = steamapi.user.SteamUser(userid=int(id))
+        except ValueError:
+          user = steamapi.user.SteamUser(userurl=id)
+    except steamapi.errors.UserNotFoundError:
+        raise SystemExit('User not found.')
+    return user
 
-summary = "\nTotal playtime: {}\nLinux playtime: {}\nPlaytime score: {:0%}"
-print(summary.format(total, linux, linux/total))
+def main():
+    usage = """
+    Usage:
+        {} vanity_name|steam_id
+
+        vanity_name
+            Part of the user URL after `/id/`.
+
+        steam_id
+            Number in the user URL after `/profiles/`.
+    """.format(sys.argv[0])
+
+    if len(sys.argv) == 1:
+        raise SystemExit(usage)
+
+    target = sys.argv[1]
+
+    steamapi = connect_to_steam()
+
+    user = get_steam_user(steamapi, target)
+
+    total = 0
+    linux = 0
+    scraper = Scraper()
+    for game in user.games:
+        total += game.playtime_forever
+        badge = '-----'
+        if scraper.runs_on_linux(game.id):
+            badge = 'LINUX'
+            linux += game.playtime_forever
+        print(badge, '%6s' % game.playtime_forever, game.name)
+
+    summary = "\nTotal playtime: {}\nLinux playtime: {}\nPlaytime score: {:0%}"
+    print(summary.format(total, linux, linux/total))
+
+
+if __name__ == '__main__':
+    main()
