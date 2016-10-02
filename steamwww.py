@@ -23,15 +23,15 @@ class Scraper:
         return r.text
 
     # TODO: use DOM to read app platforms and ignore bundles
-    def runs_on_linux(self, id):
+    def runs_on_linux(self, id, verbose = False):
         try:
             linux = self.__cache.get(id)['linux']
-            print ('   ', end = '')
+            verbose and print('   ', end = '')
         except KeyError:
             linux = self.get_html(id).find("platform_img linux") > 0
             self.__cache.add(id, {"linux": linux})
             self.__cache.save()
-            print(' + ', end = '')
+            verbose and print(' + ', end = '')
         return linux
 
 

@@ -30,7 +30,7 @@ def check_steam_user(user, verbose = False):
     for game in user.games:
         total += game.playtime_forever
         badge = '-----'
-        if scraper.runs_on_linux(game.id):
+        if scraper.runs_on_linux(game.id, verbose):
             badge = 'LINUX'
             linux += game.playtime_forever
         verbose and print(badge, '%6s' % game.playtime_forever, game.name)
