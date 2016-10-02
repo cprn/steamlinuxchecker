@@ -1,0 +1,62 @@
+#!/usr/bin/python3.5
+import sys
+import re
+import requests
+from steamlinuxchecker import *
+
+
+def get_page(url):
+    r = requests.get(url)
+    assert r.status_code == 200, "Can't open %s (%d)" % (url, r.status_code)
+    return r.text
+
+def get_steam_group_members(xml):
+    rx = re.compile(r'steamID64>(\d+)')
+    ids = []
+    for match in rx.finditer(xml):
+        ids.append(match.group(1))
+    return ids
+
+def print_user_summary(user, stats):
+    print("User: {}\nProfile: {}\nTotal: {}\nLinux: {}\nScore: {:0%}\n\n".format(
+        user.name,
+        user.profile_url,
+        stats[0],
+        stats[1],
+        stats[2]
+    ))
+
+def main():
+    usage = """
+    Usage:
+        {} group_name|guid
+
+        group_name
+            Part of the group URL after `/groups/`.
+
+        guid
+            Steam internal value `groupID64`.
+    """.format(sys.argv[0])
+
+    if len(sys.argv) == 1:
+        raise SystemExit(usage)
+
+    xml = get_page('http://steamcommunity.com/groups/%s/memberslistxml/?xml=1' % sys.argv[1])
+
+    steamapi = get_steam_api()
+
+    users = {}
+    tmp_ctr = 0
+    for id in get_steam_group_members(xml):
+        user = get_steam_user(steamapi, id)
+        users[id] = check_steam_user(user, False)
+        print_user_summary(user, users[id])
+        tmp_ctr += 1
+        if tmp_ctr == 2: raise SystemExit('TODO: pass all')
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        raise SystemExit("\nExitting...\n");
