@@ -18,11 +18,11 @@ def get_steam_group_members(xml):
     return ids
 
 def print_user_summary(user, stats):
-    print("User: {}\nProfile: {}\nTotal: {}\nLinux: {}\nScore: {:0%}\n\n".format(
+    print("User: {}\nProfile: {}\nTotal: {}h {}m\nLinux: {:0>2}h {:0>2}m\nScore: {:0%}\n".format(
         user.name,
         user.profile_url,
-        stats[0],
-        stats[1],
+        *divmod(stats[0], 60),
+        *divmod(stats[1], 60),
         stats[2]
     ))
 
