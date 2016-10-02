@@ -5,7 +5,7 @@ from steamapi import steamapi
 from steamwww import Scraper
 
 
-def connect_to_steam():
+def get_steam_api():
     config = configparser.ConfigParser()
     config.read('config.ini')
 
@@ -25,6 +25,23 @@ def get_steam_user(steamapi, id):
         raise SystemExit('User not found.')
     return user
 
+def check_steam_user(user, verbose = False):
+    total = 0
+    linux = 0
+    scraper = Scraper()
+    for game in user.games:
+        total += game.playtime_forever
+        badge = '-----'
+        if scraper.runs_on_linux(game.id):
+            badge = 'LINUX'
+            linux += game.playtime_forever
+        verbose and print(badge, '%6s' % game.playtime_forever, game.name)
+
+    summary = "\nTotal playtime: {}\nLinux playtime: {}\nPlaytime score: {:0%}"
+    stats = (total, linux, linux/total)
+    verbose and print(summary.format(*stats))
+    return stats
+
 def main():
     usage = """
     Usage:
@@ -40,25 +57,8 @@ def main():
     if len(sys.argv) == 1:
         raise SystemExit(usage)
 
-    target = sys.argv[1]
-
-    steamapi = connect_to_steam()
-
-    user = get_steam_user(steamapi, target)
-
-    total = 0
-    linux = 0
-    scraper = Scraper()
-    for game in user.games:
-        total += game.playtime_forever
-        badge = '-----'
-        if scraper.runs_on_linux(game.id):
-            badge = 'LINUX'
-            linux += game.playtime_forever
-        print(badge, '%6s' % game.playtime_forever, game.name)
-
-    summary = "\nTotal playtime: {}\nLinux playtime: {}\nPlaytime score: {:0%}"
-    print(summary.format(total, linux, linux/total))
+    user = get_steam_user(get_steam_api(), sys.argv[1])
+    check_steam_user(user, True)
 
 
 if __name__ == '__main__':
