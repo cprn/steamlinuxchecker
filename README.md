@@ -7,15 +7,18 @@ $ sudo apt-get install python3.5
 $ git clone --recursive https://github.com/cprn/steamlinuxchecker.git
 $ cd steamlinuxchecker
 $ cp config_example.ini config.ini
-$ vim config.ini # set api.key
-$ ./steamlinuxchecker {vanity_name|profile_id}
+$ vim config.ini # set your Steamp API key in here
+$ ./checkuser {vanity_name|profile_id}
+$ ./checkgroup {group_name}
 ```
 
-# Vanity
+# Vanity and Group
 * http://steamcommunity.com/id/cprn
 * http://steamcommunity.com/profiles/76561198090757837
+* http://steamcommunity.com/groups/LinuxUsersExclusively
 
-Both `cprn` and `76561198090757837` will work.
+Both `cprn` and `76561198090757837` will work for `checkuser`.
+The name of the group `LinuxUsersExclusively` will work for `checkgroup`.
 
 # Notes
 SteamAPI currently doesn't provide available platforms, hence, www scraping.
