@@ -18,13 +18,14 @@ def get_steam_group_members(xml):
     return ids
 
 def print_user_summary(user, stats):
-    print("User: {}\nProfile: {}\nTotal: {:5d}h {:2d}m\nLinux: {:5d}h {:2d}m\nScore: {:10.2%}\n".format(
+    sys.stdout.write("User: {}\nProfile: {}\nTotal: {:5d}h {:2d}m\nLinux: {:5d}h {:2d}m\nScore: {:10.2%}\n\n".format(
         user.name,
         user.profile_url,
         *divmod(stats[0], 60),
         *divmod(stats[1], 60),
         stats[2]
     ))
+    sys.stdout.flush()
 
 def main():
     usage = """

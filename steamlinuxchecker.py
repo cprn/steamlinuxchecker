@@ -1,3 +1,4 @@
+import sys
 import configparser
 from steamapi import steamapi
 from steamwww import Scraper
@@ -34,13 +35,15 @@ def check_steam_user(user, verbose = False):
             if scraper.runs_on_linux(game.id, verbose):
                 badge = 'LINUX'
                 linux += game.playtime_forever
-            verbose and print(badge, '%6s' % game.playtime_forever, game.name)
+            verbose and sys.stdout.write(badge + ' %6s ' % game.playtime_forever + game.name + "\n")
+            verbose and sys.stdout.flush()
     except steamapi.errors.AccessException:
-        verbose and print('User private: {}'.format(user.name))
+        verbose and sys.stdout.write('(private) ')
+        verbose and sys.stdout.flush()
         return (0, 0, 0);
 
     summary = "\nTotal playtime: {}\nLinux playtime: {}\nPlaytime score: {:0%}\n"
     stats = (total, linux, linux/total)
-    verbose and print(summary.format(*stats))
+    verbose and sys.stdout.write(summary.format(*stats))
     return stats
 
