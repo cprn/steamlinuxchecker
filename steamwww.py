@@ -7,7 +7,7 @@ from simplecache.cache import PickleCache
 class Scraper:
 
     def __init__(self):
-        self.__cache = PickleCache("~/tmp/steamwww_cache.pkl", 86400 * 21)
+        self.__cache = PickleCache("~/tmp/steamwww_cache.pkl", 86400 * 90)
         self.__calls = 0
 
     def get_html(self, id):
