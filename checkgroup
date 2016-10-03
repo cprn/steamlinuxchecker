@@ -18,7 +18,7 @@ def get_steam_group_members(xml):
     return ids
 
 def print_user_summary(user, stats):
-    print("User: {}\nProfile: {}\nTotal: {}h {}m\nLinux: {:0>2}h {:0>2}m\nScore: {:0%}\n".format(
+    print("User: {}\nProfile: {}\nTotal: {:5d}h {:2d}m\nLinux: {:5d}h {:2d}m\nScore: {:10.2%}\n".format(
         user.name,
         user.profile_url,
         *divmod(stats[0], 60),
@@ -45,18 +45,13 @@ def main():
 
     steamapi = get_steam_api()
 
-    users = {}
-    tmp_ctr = 0
     for id in get_steam_group_members(xml):
         user = get_steam_user(steamapi, id)
-        users[id] = check_steam_user(user, False)
-        print_user_summary(user, users[id])
-        tmp_ctr += 1
-        if tmp_ctr == 2: raise SystemExit('TODO: pass all')
+        print_user_summary(user, check_steam_user(user, False))
 
 
 if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        raise SystemExit("\nExitting...\n");
+        raise SystemExit("\nExiting...\n");
