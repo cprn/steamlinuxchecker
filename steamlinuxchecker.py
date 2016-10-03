@@ -27,15 +27,19 @@ def check_steam_user(user, verbose = False):
     total = 0
     linux = 0
     scraper = Scraper()
-    for game in user.games:
-        total += game.playtime_forever
-        badge = '-----'
-        if scraper.runs_on_linux(game.id, verbose):
-            badge = 'LINUX'
-            linux += game.playtime_forever
-        verbose and print(badge, '%6s' % game.playtime_forever, game.name)
+    try:
+        for game in user.games:
+            total += game.playtime_forever
+            badge = '-----'
+            if scraper.runs_on_linux(game.id, verbose):
+                badge = 'LINUX'
+                linux += game.playtime_forever
+            verbose and print(badge, '%6s' % game.playtime_forever, game.name)
+    except steamapi.errors.AccessException:
+        verbose and print('User private: {}'.format(user.name))
+        return (0, 0, 0);
 
-    summary = "\nTotal playtime: {}\nLinux playtime: {}\nPlaytime score: {:0%}"
+    summary = "\nTotal playtime: {}\nLinux playtime: {}\nPlaytime score: {:0%}\n"
     stats = (total, linux, linux/total)
     verbose and print(summary.format(*stats))
     return stats
