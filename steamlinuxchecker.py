@@ -38,8 +38,7 @@ def check_steam_user(user, verbose = False):
             verbose and sys.stdout.write(badge + ' %6s ' % game.playtime_forever + game.name + "\n")
             verbose and sys.stdout.flush()
     except steamapi.errors.AccessException:
-        verbose and sys.stdout.write('(private)')
-        verbose and sys.stdout.flush()
+        user.name += ' (private)'
         pass
 
     score = 0
