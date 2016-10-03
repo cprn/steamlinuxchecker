@@ -38,12 +38,16 @@ def check_steam_user(user, verbose = False):
             verbose and sys.stdout.write(badge + ' %6s ' % game.playtime_forever + game.name + "\n")
             verbose and sys.stdout.flush()
     except steamapi.errors.AccessException:
-        verbose and sys.stdout.write('(private) ')
+        verbose and sys.stdout.write('(private)')
         verbose and sys.stdout.flush()
-        return (0, 0, 0);
+        pass
+
+    score = 0
+    if total > 0:
+        score = linux/total
 
     summary = "\nTotal playtime: {}\nLinux playtime: {}\nPlaytime score: {:0%}\n"
-    stats = (total, linux, linux/total)
+    stats = (total, linux, score)
     verbose and sys.stdout.write(summary.format(*stats))
     return stats
 
