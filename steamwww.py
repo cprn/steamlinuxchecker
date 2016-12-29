@@ -22,7 +22,7 @@ class Scraper:
         assert r.text.find('enter your birth') < 0, "Age check error! %d" % id
         return r.text
 
-    def get_json(self, id): # TODO: can take multiple comma separated ids
+    def get_json(self, id):
         time.sleep(2) # sleep between each call
         r = requests.get('http://store.steampowered.com/api/appdetails/?appids=%s' % id)
         j = r.json()[str(id)]
