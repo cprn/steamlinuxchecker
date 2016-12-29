@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-import pprint
 import requests
 import sys
 import time
