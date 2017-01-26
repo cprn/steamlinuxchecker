@@ -24,7 +24,7 @@ class Scraper:
 
     def get_json(self, id):
         time.sleep(2) # sleep between each call
-        url = 'http://store.steampowered.com/api/appdetails/?appids=%s&filters=basic,platforms,release_date'
+        url = 'https://store.steampowered.com/api/appdetails/?appids=%s&filters=basic,platforms,release_date'
         r = requests.get(url % id)
         j = r.json()[str(id)]
         assert r.status_code == 200, "Can't open %s (%d): %s" % (id, r.status_code, r.json())
