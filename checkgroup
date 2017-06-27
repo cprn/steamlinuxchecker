@@ -15,7 +15,7 @@ def get_steam_group_members(xml):
     ids = []
     for match in rx.finditer(xml):
         ids.append(match.group(1))
-    return ids
+    return sorted(ids)
 
 def print_user_summary(user, stats):
     sys.stdout.write("User: {} - {}\nTotal: {:5d}h {:2d}m\nLinux: {:5d}h {:2d}m\nScore: {:10.2%}\n\n".format(
