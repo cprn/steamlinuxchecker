@@ -6,19 +6,27 @@ from steamlinuxchecker import *
 def main():
     usage = """
     Usage:
-        {} vanity_name|steam_id
+        {} profile_url|vanity_name|steam_id
 
         vanity_name
-            Part of the user URL after `/id/`.
+            Part of the Steam profile URL after `/id/`.
 
         steam_id
-            Number in the user URL after `/profiles/`.
+            Number in the Steam profile URL after `/profiles/`.
+
+        profile_url
+            I believe in your intelligence.
     """.format(sys.argv[0])
 
     if len(sys.argv) == 1:
         raise SystemExit(usage)
 
-    user = get_steam_user(get_steam_api(), sys.argv[1])
+    user_id = sys.argv[1]
+
+    for prefix in ['https://steamcommunity.com/id/', 'https://steamcommunity.com/profiles/']:
+        user_id = user_id.replace(prefix, '')
+
+    user = get_steam_user(get_steam_api(), user_id)
     check_steam_user(user, True)
 
 
