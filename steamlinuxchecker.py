@@ -42,11 +42,21 @@ def check_steam_user(user, verbose = False):
         pass
 
     score = 0
-    if total > 0:
+    if total > 1:
         score = linux/total
 
-    summary = "\nTotal playtime: {}\nLinux playtime: {}\nPlaytime score: {:0%}\n"
     stats = (total, linux, score)
-    verbose and sys.stdout.write(summary.format(*stats))
+    verbose and print_user_summary(user, stats)
     return stats
+
+def print_user_summary(user, stats):
+    sys.stdout.write("\nSteamID: {}\nUser: {}\nProfile: {}\nTotal: {:5d}h {:2d}m\nLinux: {:5d}h {:2d}m\nScore: {:10.2%}\n".format(
+        user.id,
+        user.name,
+        user.profile_url,
+        *divmod(stats[0], 60),
+        *divmod(stats[1], 60),
+        stats[2]
+    ))
+    sys.stdout.flush()
 
