@@ -18,9 +18,9 @@ def get_steam_group_members(xml):
     return sorted(ids)
 
 def print_user_summary(user, stats):
-    sys.stdout.write("User: {} - {} - {}\nTotal: {:5d}h {:2d}m\nLinux: {:5d}h {:2d}m\nScore: {:10.2%}\n\n".format(
-        user.name,
+    sys.stdout.write("SteamID: {}\nUser: {}\nProfile: {}\nTotal: {:5d}h {:2d}m\nLinux: {:5d}h {:2d}m\nScore: {:10.2%}\n\n".format(
         user.id,
+        user.name,
         user.profile_url,
         *divmod(stats[0], 60),
         *divmod(stats[1], 60),
