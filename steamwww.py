@@ -23,6 +23,8 @@ class Scraper:
         return r.text
 
     def get_json(self, id):
+        self.__calls += 1
+        self.__calls % 20 == 0 and time.sleep(10) # extra sleep every 20 calls
         time.sleep(2) # sleep between each call
         url = 'https://store.steampowered.com/api/appdetails/?appids=%s&filters=basic,platforms,release_date'
         r = requests.get(url % id)
