@@ -4,6 +4,9 @@ from steamapi import steamapi
 from steamwww import Scraper
 
 
+scraper = Scraper()
+
+
 def get_steam_api():
     config = configparser.ConfigParser()
     config.read('config.ini')
@@ -27,7 +30,6 @@ def get_steam_user(steamapi, id):
 def check_steam_user(user, verbose = False):
     total = 0
     linux = 0
-    scraper = Scraper()
     try:
         for game in user.games:
             total += game.playtime_forever
