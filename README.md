@@ -12,7 +12,7 @@ $ git clone --recursive --depth 1 https://github.com/cprn/steamlinuxchecker.git
 $ cd steamlinuxchecker
 $ cp config_example.ini config.ini
 $ vim config.ini # set your Steamp API key in here
-$ ./checkuser {vanity_name|profile_id}
+$ ./checkuser {profile_url|vanity_name|profile_id}
 $ ./checkgroup {group_name}
 ```
 
