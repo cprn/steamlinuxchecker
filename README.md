@@ -2,4 +2,4 @@
 Ever wondered if you're a true Linux gamer?
 
 # Moved
-Project moved to https://gitlab.com/lue-gamers/steamlinuxchecker - it might be temporary unavailable due to solving some quirks but it should be accessible again soon.
+Project moved to [GitLab](https://gitlab.com/lue-gamers/steamlinuxchecker). If it's unavailable it's due to solving some quirks and will be accessible again soon.
