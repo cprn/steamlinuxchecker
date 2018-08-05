@@ -1,6 +1,0 @@
-[submodule "steamapi"]
-	path = steamapi
-	url = https://github.com/smiley/steamapi.git
-[submodule "simplecache"]
-	path = simplecache
-	url = https://gitlab.com/cprn/simplecache.git
